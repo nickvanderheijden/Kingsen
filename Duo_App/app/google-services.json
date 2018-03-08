@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "493503211979",
+    "firebase_url": "https://kingsen-dc0b6.firebaseio.com",
+    "project_id": "kingsen-dc0b6",
+    "storage_bucket": "kingsen-dc0b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493503211979:android:063d1a4ea85414fb",
+        "android_client_info": {
+          "package_name": "org.fhict.fontys.kingsen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493503211979-0gph3turhgre3p6bvbecjvmtfdd5b56j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.fhict.fontys.kingsen",
+            "certificate_hash": "77089620049a74ab4c7be8cd76bddaa5a89ea146"
+          }
+        },
+        {
+          "client_id": "493503211979-05hglljsovhki1esun95dcquudebb958.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOx5TsqjfnM06JEfQOmcmF9WRrTpl7lFg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493503211979-05hglljsovhki1esun95dcquudebb958.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

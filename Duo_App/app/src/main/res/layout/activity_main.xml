@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#191414"
+    tools:context="org.fhict.fontys.kingsen.MainActivity">
+
+
+    <EditText
+        android:id="@+id/tbpassword"
+        android:layout_width="348dp"
+        android:layout_height="71dp"
+        android:layout_marginBottom="64dp"
+        android:background="@drawable/edittext_rounded"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
+        android:textColorLink="@android:color/holo_blue_bright"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/tbusername"
+        android:layout_width="348dp"
+        android:layout_height="71dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/edittext_rounded"
+        android:hint="@string/username"
+        android:padding="10dp"
+        android:textColor="#ffffff"
+        android:textColorHint="#ffffff"
+        android:textColorLink="@android:color/holo_blue_bright"
+        android:textIsSelectable="false"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/tbpassword"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="181dp"
+        android:layout_height="74dp"
+        android:layout_marginBottom="32dp"
+        android:layout_weight="1"
+        android:backgroundTint="#1db954"
+        android:onClick="Login"
+        android:text="@string/Login"
+        android:textColor="@android:color/background_light"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
