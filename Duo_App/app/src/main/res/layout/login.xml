@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#191414"
-    tools:context="org.fhict.fontys.kingsen.MainActivity">
+    tools:context="org.fhict.fontys.kingsen.LoginActivity">
 
 
     <EditText
@@ -20,6 +20,7 @@
         android:textColor="#ffffff"
         android:textColorHint="	#787878"
         android:textColorLink="@android:color/holo_blue_bright"
+        android:textCursorDrawable="@null"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/btnregister"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,6 +40,7 @@
         android:textColor="#ffffff"
         android:textColorHint="	#787878"
         android:textColorLink="@android:color/holo_blue_bright"
+        android:textCursorDrawable="@null"
         android:textIsSelectable="false"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/tbpassword"
