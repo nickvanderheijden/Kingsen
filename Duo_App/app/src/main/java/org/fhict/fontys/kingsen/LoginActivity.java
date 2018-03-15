@@ -32,6 +32,13 @@ public class LoginActivity extends AppCompatActivity {
 
         this.tbusername = findViewById(R.id.tbusername);
         this.tbpassword = findViewById(R.id.tbpassword);
+
+        if (AuthenticationReference.getAuth().getCurrentUser() != null)
+        {
+            Intent homescreen = new Intent(this,HomeActivity.class);
+            startActivity(homescreen);
+            finish();
+        }
     }
 
     public void Login(View view)
