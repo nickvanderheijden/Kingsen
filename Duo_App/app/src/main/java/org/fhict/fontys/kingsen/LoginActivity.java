@@ -16,6 +16,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.fhict.fontys.kingsen.Objects.AuthenticationReference;
+import org.fhict.fontys.kingsen.Objects.SimpleDialog;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,36 +42,31 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void Login(View view)
-    {
-        AuthenticationReference.getAuth().signInWithEmailAndPassword(tbusername.getText().toString(),tbpassword.getText().toString());
-        FirebaseUser current = AuthenticationReference.getAuth().getCurrentUser();
-
-        if (current == null)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-            builder.setTitle("Wrong credentials");
-            builder.setMessage("Please fill in the right credentials");
-            builder.setPositiveButton("Oke", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                  dialog.cancel();
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
+    public void Login(View view) {
+        if (tbusername.getText().toString().equals("") || tbpassword.getText().toString().equals("")) {
+            new SimpleDialog(this,"No Credentials","Please fill in both the required fields");
         }
-        else
-        {
-            Intent homescreen = new Intent(this,HomeActivity.class);
-            startActivity(homescreen);
-            finish();
+        else if (tbusername.getText().toString().isEmpty() == false || tbpassword.getText().toString().isEmpty() == false){
+            AuthenticationReference.getAuth().signInWithEmailAndPassword(tbusername.getText().toString(), tbpassword.getText().toString());
+            FirebaseUser current = AuthenticationReference.getAuth().getCurrentUser();
+
+            if (current == null) {
+                new SimpleDialog(this,"Wrong credentials","Please fill in the right credentials");
+            } else {
+                Intent homescreen = new Intent(this, HomeActivity.class);
+                startActivity(homescreen);
+                finish();
+            }
         }
     }
 
     public void Register(View view)
     {
+        if (tbusername.getText().toString().equals("") || tbpassword.getText().toString().equals(""))
+        {
+            new SimpleDialog(this,"No Credentials","Please fill in both the required fields");
+        }
+        else if (tbusername.getText().toString().isEmpty() == false || tbpassword.getText().toString().isEmpty() == false){
         AuthenticationReference.getAuth().createUserWithEmailAndPassword(tbusername.getText().toString(),tbpassword.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -85,5 +81,5 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
+        }}
 }
