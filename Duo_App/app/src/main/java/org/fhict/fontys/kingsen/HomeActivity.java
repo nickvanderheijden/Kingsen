@@ -13,14 +13,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.database.DatabaseReference;
 import org.fhict.fontys.kingsen.Objects.Group;
 import org.fhict.fontys.kingsen.Objects.HelperFireBase;
 
 public class HomeActivity extends AppCompatActivity {
 
     final Context context = this;
-    com.google.firebase.database.DatabaseReference db;
+    DatabaseReference db;
     HelperFireBase help;
 
 
