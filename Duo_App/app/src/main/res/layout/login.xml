@@ -4,9 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#191414"
+    android:background="@android:color/background_light"
     tools:context="org.fhict.fontys.kingsen.LoginActivity">
 
+    <EditText
+        android:id="@+id/tbusername"
+        android:layout_width="348dp"
+        android:layout_height="71dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/edittext_rounded"
+        android:hint="@string/username"
+        android:padding="10dp"
+        android:textColor="@android:color/black"
+        android:textColorHint="	#787878"
+        android:textColorLink="@color/colorAccent"
+        android:textCursorDrawable="@null"
+        android:textIsSelectable="false"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/tbpassword"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/tbpassword"
@@ -17,9 +35,9 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         android:padding="10dp"
-        android:textColor="#ffffff"
+        android:textColor="@android:color/black"
         android:textColorHint="	#787878"
-        android:textColorLink="@android:color/holo_blue_bright"
+        android:textColorLink="@color/colorAccent"
         android:textCursorDrawable="@null"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/btnregister"
@@ -29,48 +47,34 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/tbusername"
-        android:layout_width="348dp"
-        android:layout_height="71dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/edittext_rounded"
-        android:hint="@string/username"
-        android:padding="10dp"
-        android:textColor="#ffffff"
-        android:textColorHint="	#787878"
-        android:textColorLink="@android:color/holo_blue_bright"
-        android:textCursorDrawable="@null"
-        android:textIsSelectable="false"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/tbpassword"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/btnlogin"
-        android:layout_width="181dp"
-        android:layout_height="74dp"
-        android:layout_marginBottom="28dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="173dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="8dp"
         android:layout_weight="1"
-        android:backgroundTint="#1db954"
+        android:backgroundTint="@color/colorPrimary"
         android:onClick="Login"
         android:text="@string/login"
         android:textColor="@android:color/background_light"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnregister"
+        app:layout_constraintHorizontal_bias="0.195"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnregister"
-        android:layout_width="181dp"
-        android:layout_height="74dp"
-        android:layout_marginBottom="28dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="173dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_weight="1"
-        android:backgroundTint="#1db954"
+        android:backgroundTint="@color/colorPrimary"
         android:onClick="Register"
         android:text="@string/register"
         android:textColor="@android:color/background_light"
@@ -79,17 +83,28 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="252dp"
-        android:layout_height="228dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="60dp"
+        android:id="@+id/imageView"
+        android:layout_width="270dp"
+        android:layout_height="253dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/tbusername"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/iconkings" />
+        app:srcCompat="@drawable/iconkingcolor" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="8dp"
+        android:text="Kingsen"
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/tbusername"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 </android.support.constraint.ConstraintLayout>
