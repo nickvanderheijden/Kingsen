@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.fhict.fontys.kingsen.Objects.DatabaseReference;
 import org.fhict.fontys.kingsen.Objects.Group;
 
@@ -18,7 +20,7 @@ public class HomeActivity extends AppCompatActivity {
 
     final Context context = this;
     DatabaseReference DBR;
-    Group G;
+
 
 
     @Override
@@ -51,6 +53,10 @@ public class HomeActivity extends AppCompatActivity {
                         .setPositiveButton("Save",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
+                                        String groupname = userInput.getText().toString();
+                                        Group G = new Group(groupname);
+                                        G.setName(groupname);
+
 
                                     }
                                 })
@@ -69,5 +75,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
 
 }
