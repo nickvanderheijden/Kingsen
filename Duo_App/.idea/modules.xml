@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Duo_App.iml" filepath="$PROJECT_DIR$/Duo_App.iml" />
-      <module fileurl="file://D:\githubAndroid\Kingsen\Duo_App\Duo_App.iml" filepath="D:\githubAndroid\Kingsen\Duo_App\Duo_App.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://D:\githubAndroid\Kingsen\Duo_App\app\app.iml" filepath="D:\githubAndroid\Kingsen\Duo_App\app\app.iml" />
     </modules>
   </component>
 </project>

@@ -11,9 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import org.fhict.fontys.kingsen.Objects.DatabaseReference;
+import org.fhict.fontys.kingsen.Objects.Group;
+
 public class HomeActivity extends AppCompatActivity {
 
     final Context context = this;
+    DatabaseReference DBR;
+    Group G;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
                         .setPositiveButton("Save",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
-                                        
+
                                     }
                                 })
                         .setNegativeButton("Cancel",
