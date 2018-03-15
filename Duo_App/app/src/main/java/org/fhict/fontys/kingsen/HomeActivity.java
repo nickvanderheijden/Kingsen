@@ -14,14 +14,13 @@ import android.widget.Toast;
 
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.fhict.fontys.kingsen.Objects.DatabaseReference;
 import org.fhict.fontys.kingsen.Objects.Group;
 import org.fhict.fontys.kingsen.Objects.HelperFireBase;
 
 public class HomeActivity extends AppCompatActivity {
 
     final Context context = this;
-    DatabaseReference db;
+    com.google.firebase.database.DatabaseReference db;
     HelperFireBase help;
 
 
@@ -32,6 +31,10 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        db = FirebaseDatabase.getInstance().getReference();
+        help = new HelperFireBase(db);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

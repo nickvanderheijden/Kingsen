@@ -11,8 +11,8 @@ public class HelperFireBase {
     DatabaseReference db;
     Boolean saveGroup = null;
 
-    public HelperFireBase(DatabaseReference dbr) {
-        this.db = dbr;
+    public HelperFireBase(DatabaseReference db) {
+        this.db = db;
     }
     public Boolean save(Group group) {
 
