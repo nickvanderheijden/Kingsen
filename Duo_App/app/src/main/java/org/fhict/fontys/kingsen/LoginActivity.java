@@ -2,6 +2,7 @@ package org.fhict.fontys.kingsen;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 
 import org.fhict.fontys.kingsen.Objects.AuthenticationReference;
+import org.fhict.fontys.kingsen.Objects.DatabaseReference;
 import org.fhict.fontys.kingsen.Objects.SimpleDialog;
 
 public class LoginActivity extends AppCompatActivity {
@@ -71,6 +73,12 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
+
+                        String username = tbusername.getText().toString();
+
+                        DatabaseReference.getDatabase().child("Users").setValue(username);
+
                         if(task.isSuccessful()){
                             Toast correctmessage = Toast.makeText(tbusername.getContext(),"Account succesfully created",Toast.LENGTH_SHORT);
                             correctmessage.show();

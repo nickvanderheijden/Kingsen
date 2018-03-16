@@ -2,9 +2,6 @@ package org.fhict.fontys.kingsen.Objects;
 
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
-/**
- * Created by Nick on 15-3-2018.
- */
 
 public class HelperFireBase {
 
