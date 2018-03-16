@@ -3,8 +3,10 @@ package org.fhict.fontys.kingsen;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
-
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 import org.fhict.fontys.kingsen.Objects.Card;
 import org.fhict.fontys.kingsen.Objects.DatabaseReference;
 
@@ -25,9 +27,38 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    public ArrayList<Card> retrieve() {
-        DatabaseReference db;
-        return null;
+    public  ArrayList<Card> retrieve() {
+
+        DatabaseReference.getDatabase().addChildEventListener(new ChildEventListener() {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            fetchData(dataSnapshot);
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            fetchData(dataSnapshot);
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+
+    });
+
+
+        return cards;
     }
 
 
