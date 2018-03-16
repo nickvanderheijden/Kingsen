@@ -76,6 +76,9 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
 
+                        String username = tbusername.getText().toString();
+
+                        DatabaseReference.getDatabase().child("users").child("name").setValue(username);
 
                         if(task.isSuccessful()){
                             Toast correctmessage = Toast.makeText(tbusername.getContext(),"Account succesfully created",Toast.LENGTH_SHORT);
