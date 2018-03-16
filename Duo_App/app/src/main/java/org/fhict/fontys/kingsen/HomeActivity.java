@@ -17,8 +17,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.fhict.fontys.kingsen.Objects.AuthenticationReference;
 import org.fhict.fontys.kingsen.Objects.DatabaseReference;
 import org.fhict.fontys.kingsen.Objects.Group;
+import org.fhict.fontys.kingsen.Objects.SimpleDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,9 +88,6 @@ public class HomeActivity extends AppCompatActivity {
 
                                             }
                                         });
-
-
-
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -103,6 +102,29 @@ public class HomeActivity extends AppCompatActivity {
 
                 // show it
                 alertDialog.show();
+            }
+        });
+
+
+        DatabaseReference.getDatabase().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren())
+                {
+                    System.out.println(ds.getKey());
+                    for (DataSnapshot df : ds.getChildren())
+                    {
+                        if (df.getValue() == AuthenticationReference.getAuth().getCurrentUser().getEmail())
+                        {
+                            new SimpleDialog(context,"yep","ok");
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
