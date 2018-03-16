@@ -12,10 +12,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.fhict.fontys.kingsen.Objects.DatabaseReference;
 import org.fhict.fontys.kingsen.Objects.Group;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -53,7 +59,34 @@ public class HomeActivity extends AppCompatActivity {
                         .setPositiveButton("Save",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
-                                    DatabaseReference.getDatabase().child("groep");
+
+                                        List<String> users = new ArrayList<>();
+                                        users.add("Pietje");
+                                        users.add("Henk");
+                                        users.add("Wil");
+
+                                        Group toadd = new Group("first group",users);
+                                        DatabaseReference.getDatabase().child("groep").child(toadd.getName()).setValue(toadd.getUsers());
+
+                                        DatabaseReference.getDatabase().child("groep").addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                for (DataSnapshot ds : dataSnapshot.getChildren())
+                                                {
+                                                    System.out.println(ds.getKey());
+                                                    for (DataSnapshot df : ds.getChildren())
+                                                    {
+                                                        System.out.println(df.getValue());
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+
 
 
                                     }
