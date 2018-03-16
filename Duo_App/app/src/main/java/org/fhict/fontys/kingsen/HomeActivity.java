@@ -113,8 +113,10 @@ public class HomeActivity extends AppCompatActivity {
                     System.out.println(ds.getKey());
                     for (DataSnapshot df : ds.getChildren()) {
                         System.out.println(df.getValue());
-                        if (df.getValue() == AuthenticationReference.getAuth().getCurrentUser().getEmail()) {
-                            new SimpleDialog(context, "yep", "ok");
+                        System.out.println(AuthenticationReference.getAuth().getCurrentUser().getEmail());
+                        if ( AuthenticationReference.getAuth().getCurrentUser().getEmail().equals(df.getValue().toString())) {
+                            Toast message= Toast.makeText(context,"yes",Toast.LENGTH_SHORT);
+                            message.show();
 
                         }
                     }
