@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login);
 
         new  AuthenticationReference();
+        new DatabaseReference();
 
         this.tbusername = findViewById(R.id.tbusername);
         this.tbpassword = findViewById(R.id.tbpassword);

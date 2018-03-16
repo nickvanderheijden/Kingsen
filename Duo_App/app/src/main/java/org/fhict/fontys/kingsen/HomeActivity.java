@@ -13,17 +13,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.DatabaseReference;
+
+import org.fhict.fontys.kingsen.Objects.DatabaseReference;
 import org.fhict.fontys.kingsen.Objects.Group;
-import org.fhict.fontys.kingsen.Objects.HelperFireBase;
 
 public class HomeActivity extends AppCompatActivity {
 
     final Context context = this;
-    DatabaseReference db;
-    HelperFireBase help;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +28,6 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        db = FirebaseDatabase.getInstance().getReference();
-        help = new HelperFireBase(db);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -59,18 +53,8 @@ public class HomeActivity extends AppCompatActivity {
                         .setPositiveButton("Save",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
-                                        String groupname = userInput.getText().toString();
-                                        Group g = new Group(groupname);
-                                        g.setName(groupname);
+                                    DatabaseReference.getDatabase().child("groep");
 
-                                        if(groupname != null && groupname.length()>0){
-                                            if(help.save(g)){
-                                            userInput.setText("");
-
-                                            }
-                                        }else{
-                                            Toast.makeText(HomeActivity.this,"GroupName may not be Empty",Toast.LENGTH_SHORT).show();
-                                        }
 
                                     }
                                 })
