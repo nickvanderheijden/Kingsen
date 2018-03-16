@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog,int id) {
 
                                         List<String> users = new ArrayList<>();
-                                        users.add("Pietje");
+                                        users.add("nick_heijden@hotmail.com");
                                         users.add("Henk");
                                         users.add("Wil");
 
@@ -106,7 +106,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-        DatabaseReference.getDatabase().addValueEventListener(new ValueEventListener() {
+        DatabaseReference.getDatabase().child("groep").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren())
@@ -114,6 +114,7 @@ public class HomeActivity extends AppCompatActivity {
                     System.out.println(ds.getKey());
                     for (DataSnapshot df : ds.getChildren())
                     {
+                        System.out.println(df.getValue());
                         if (df.getValue() == AuthenticationReference.getAuth().getCurrentUser().getEmail())
                         {
                             new SimpleDialog(context,"yep","ok");
