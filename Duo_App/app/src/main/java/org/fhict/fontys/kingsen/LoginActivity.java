@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
-
                         String username = tbusername.getText().toString();
 
                         DatabaseReference.getDatabase().child("users").child("name").setValue(username);
