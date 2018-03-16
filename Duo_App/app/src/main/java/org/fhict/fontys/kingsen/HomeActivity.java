@@ -109,11 +109,13 @@ public class HomeActivity extends AppCompatActivity {
         DatabaseReference.getDatabase().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println(AuthenticationReference.getAuth().getCurrentUser().getEmail());
                 for (DataSnapshot ds : dataSnapshot.getChildren())
                 {
                     System.out.println(ds.getKey());
                     for (DataSnapshot df : ds.getChildren())
                     {
+                        System.out.print(df.getValue());
                         if (df.getValue() == AuthenticationReference.getAuth().getCurrentUser().getEmail())
                         {
                             new SimpleDialog(context,"yep","ok");
