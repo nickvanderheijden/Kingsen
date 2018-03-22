@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void Login(View view) {
+
         if (tbusername.getText().toString().equals("") || tbpassword.getText().toString().equals("")) {
             new SimpleDialog(this,"No Credentials","Please fill in both the required fields");
         }
