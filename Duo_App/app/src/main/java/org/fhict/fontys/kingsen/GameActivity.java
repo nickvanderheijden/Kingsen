@@ -1,7 +1,11 @@
 package org.fhict.fontys.kingsen;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -12,60 +16,48 @@ import org.fhict.fontys.kingsen.Objects.DatabaseReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
 
-    ArrayList<Card> cards = new ArrayList<Card>();
 
-
-    private void fetchData(DataSnapshot dataSnapshot) {
-        cards.clear();
-
-        for (DataSnapshot ds : dataSnapshot.getChildren()) {
-            Card card = ds.getValue(Card.class);
-            cards.add(card);
-        }
-    }
-
-    public  ArrayList<Card> retrieve() {
-
-        DatabaseReference.getDatabase().addChildEventListener(new ChildEventListener() {
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            fetchData(dataSnapshot);
-        }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            fetchData(dataSnapshot);
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-
-    });
-
-
-        return cards;
-    }
-
-
+    List<String> cards = new ArrayList<>();
+    ImageView imgcard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        for (Card.Number number : Card.Number.values())
+        {
+            for (Card.Type type : Card.Type.values())
+            {
+                cards.add(number.toString() + "_of_" + type.toString());
+            }
+        }
+
+        cards.add("red_joker");
+        cards.add("black_joker");
+
+        imgcard = findViewById(R.id.imgviewcard);
+    }
+
+    public void ShowRandomCard(View view)
+    {
+        imgcard.setImageDrawable(getRandomcard());
+    }
+
+    public Drawable getRandomcard()
+    {
+        Random randomGenerator = new Random();
+        int index = randomGenerator.nextInt(cards.size());
+        String card = cards.get(index);
+        cards.remove(index);
+
+        Context context = this.getApplicationContext();
+        int resourceId = context.getResources().getIdentifier(card, "drawable", this.getApplicationContext().getPackageName());
+        return context.getResources().getDrawable(resourceId);
+
     }
 }

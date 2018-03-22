@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
             if (current == null) {
                 new SimpleDialog(this,"Wrong credentials","Please fill in the right credentials");
             } else {
-                Intent homescreen = new Intent(this, HomeActivity.class);
+                Intent homescreen = new Intent(this, GameActivity.class);
                 startActivity(homescreen);
                 finish();
             }

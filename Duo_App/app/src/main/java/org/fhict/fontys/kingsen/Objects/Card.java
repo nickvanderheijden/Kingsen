@@ -1,23 +1,32 @@
 package org.fhict.fontys.kingsen.Objects;
 
+import java.util.Random;
+
 /**
  * Created by Nick on 16-3-2018.
  */
 
 public class Card {
 
-    private int value;
-
-    public Card(int value){
-        this.value = value;
+    public enum Number{
+        ace,
+        two,
+        three,
+        four,
+        five,
+        six,
+        seven,
+        eight,
+        nine,
+        jack,
+        queen,
+        king
     }
-    public int getValue() {
-        return value;
+
+    public enum Type{
+        clubs,
+        spades,
+        diamonds,
+        hearts
     }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
-
 }
