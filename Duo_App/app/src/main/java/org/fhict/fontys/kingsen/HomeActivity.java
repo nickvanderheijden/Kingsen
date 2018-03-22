@@ -9,7 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +31,8 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
     final Context context = this;
+    private List<EditText> inputmembers = new ArrayList<>();
+    Integer membercount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +47,10 @@ public class HomeActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                membercount = 1;
 
                 LayoutInflater li = LayoutInflater.from(context);
-                View promptsView = li.inflate(R.layout.creategroup_prompt, null);
+                final View promptsView = li.inflate(R.layout.creategroup_prompt, null);
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         context);
@@ -52,8 +58,26 @@ public class HomeActivity extends AppCompatActivity {
                 // set creategroup_promptroup_prompt.xml to alertdialog builder
                 alertDialogBuilder.setView(promptsView);
 
-                final EditText userInput = promptsView
-                        .findViewById(R.id.editTextDialogUserInput);
+                final EditText groupname = promptsView
+                        .findViewById(R.id.tbgroupname);
+
+                final EditText member1 = promptsView.findViewById(R.id.tbmember1);
+                inputmembers.add(member1);
+
+                final ImageButton addtextbox = promptsView.findViewById(R.id.btnaddtext);
+                addtextbox.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        membercount++;
+                        EditText toadd = new EditText(promptsView.getContext());
+                        toadd.setHint("Member " + membercount);
+
+                        inputmembers.add(toadd);
+
+                      LinearLayout l =  promptsView.findViewById(R.id.layout_root);
+                      l.addView(toadd,l.indexOfChild(addtextbox));
+                    }
+                });
 
                 // set dialog message
                 alertDialogBuilder
@@ -63,11 +87,13 @@ public class HomeActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog,int id) {
 
                                         List<String> users = new ArrayList<>();
-                                        users.add("nick_heijden@hotmail.com");
-                                        users.add("Henk");
-                                        users.add("Wil");
+                                        for (EditText t : inputmembers)
+                                        {
+                                            users.add(t.getText().toString());
+                                        }
 
-                                        Group toadd = new Group("first group",users);
+                                        System.out.println(users);
+                                        Group toadd = new Group(groupname.getText().toString(),users);
                                         DatabaseReference.getDatabase().child("groep").child(toadd.getName()).setValue(toadd.getUsers());
 
                                         DatabaseReference.getDatabase().child("groep").addListenerForSingleValueEvent(new ValueEventListener() {
