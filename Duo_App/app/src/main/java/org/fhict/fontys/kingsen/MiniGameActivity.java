@@ -32,7 +32,6 @@ public class MiniGameActivity extends AppCompatActivity {
     private int screenHeight;
 
 
-
     private int mouthY;
     private int yellowX;
     private int yellowY;
@@ -117,14 +116,17 @@ public class MiniGameActivity extends AppCompatActivity {
             greenY = (int)Math.floor(Math.random()*(frameHeight - green.getHeight()));
         }
         green.setX(greenX);
+        green.setY(greenY);
 
         // red
-        redX -= 24;
+        redX -= 30;
         if(redX < 0){
             redX = screenWidth + 40;
             redY = (int)Math.floor(Math.random()*(frameHeight - red.getHeight()));
 
         }
+        red.setX(redX);
+        red.setY(redY);
 
         if (action_flag == true) {
             mouthY -= 20;
@@ -149,6 +151,37 @@ public class MiniGameActivity extends AppCompatActivity {
             score +=10;
             yellowX = -10;
         }
+
+        int blackCenterX = blackX + black.getWidth() /2;
+        int blackCenterY = blackY + black.getHeight() /2 ;
+
+        if(0 <= blackCenterX && blackCenterX <= mouthSize&&
+                mouthY <= blackCenterY && blackCenterY <= mouthY +mouthSize){
+
+            score +=5;
+            blackX = -10;
+        }
+
+        int greenCenterX = greenX + green.getWidth() /2;
+        int greenCenterY = greenY + green.getHeight() /2 ;
+
+        if(0 <= greenCenterX && greenCenterX <= mouthSize&&
+                mouthY <= greenCenterY && greenCenterY <= mouthY +mouthSize){
+
+            score -=5;
+            greenX = -10;
+        }
+
+        int redCenterX = redX + red.getWidth() /2;
+        int redCenterY = redY + red.getHeight() /2 ;
+
+        if(0 <= redCenterX && redCenterX <= mouthSize&&
+                mouthY <= redCenterY && redCenterY <= mouthY +mouthSize){
+
+            score -=10;
+            redX = -10;
+        }
+
     }
     public boolean onTouchEvent(MotionEvent me){
 
@@ -161,9 +194,6 @@ public class MiniGameActivity extends AppCompatActivity {
             mouthY = (int)mouth.getY();
 
             mouthSize = mouth.getHeight();
-
-
-
 
 
 

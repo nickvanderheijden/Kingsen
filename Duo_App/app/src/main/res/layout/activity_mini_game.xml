@@ -20,16 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/startLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tap to Start"
-            android:textSize="30sp"
-            android:layout_gravity="center"
-            android:layout_marginTop="130dp"
-            />
-
         <ImageView
             android:id="@+id/mouth"
             android:layout_width="50dp"
@@ -57,6 +47,15 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/red"/>
+
+        <TextView
+            android:id="@+id/startLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="130dp"
+            android:text="Tap to Start, drink the yellow and black beers"
+            android:textSize="30sp" />
 
     </FrameLayout>
 
