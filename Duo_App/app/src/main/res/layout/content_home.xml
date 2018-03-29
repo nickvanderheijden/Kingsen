@@ -8,4 +8,11 @@
     tools:context="org.fhict.fontys.kingsen.HomeActivity"
     tools:showIn="@layout/activity_home">
 
+    <ListView
+        android:id="@+id/lsview"
+        android:layout_width="395dp"
+        android:layout_height="581dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

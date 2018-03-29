@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
@@ -57,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             if (current == null) {
                 new SimpleDialog(this,"Wrong credentials","Please fill in the right credentials");
             } else {
-                Intent homescreen = new Intent(this, GameActivity.class);
+                Intent homescreen = new Intent(this, HomeActivity.class);
                 startActivity(homescreen);
                 finish();
             }
@@ -77,8 +78,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         String username = tbusername.getText().toString();
-
-                        DatabaseReference.getDatabase().child("users").child("name").setValue(username);
+                        username.replace(".",",");
+                        DatabaseReference.getDatabase().child("users").setValue(username);
 
                         if(task.isSuccessful()){
                             Toast correctmessage = Toast.makeText(tbusername.getContext(),"Account succesfully created",Toast.LENGTH_SHORT);
