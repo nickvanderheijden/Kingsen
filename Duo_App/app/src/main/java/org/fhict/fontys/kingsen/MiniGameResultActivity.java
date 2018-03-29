@@ -44,6 +44,6 @@ public class MiniGameResultActivity extends AppCompatActivity {
 
     }
     public void backToTheGame(View view){
-        startActivity(new Intent(getApplicationContext(),GameActivity.class));
+        finish();
     }
 }

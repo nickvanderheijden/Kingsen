@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tvcurrentplayer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.fhict.fontys.kingsen.GameActivity">
@@ -10,14 +11,14 @@
         android:id="@+id/btnpick"
         android:layout_width="143dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="64dp"
         android:onClick="ShowRandomCard"
         android:text="Pick a Card"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgviewcard" />
+        app:layout_constraintTop_toBottomOf="@+id/tvplayertomove" />
 
     <ImageView
         android:id="@+id/imgviewcard"
@@ -31,5 +32,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ace_of_spades" />
+
+    <TextView
+        android:id="@+id/tvplayertomove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="TextView"
+        android:textSize="25dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgviewcard" />
 
 </android.support.constraint.ConstraintLayout>

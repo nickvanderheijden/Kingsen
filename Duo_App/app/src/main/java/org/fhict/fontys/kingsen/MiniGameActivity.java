@@ -193,6 +193,7 @@ public class MiniGameActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MiniGameResultActivity.class);
                 intent.putExtra("SCORE", score);
                 startActivity(intent);
+                finish();
 
 
 

@@ -200,7 +200,6 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 Intent intent = new Intent(getBaseContext(), StartActivity.class);
                 intent.putExtra("GROUP",g);
                 startActivity(intent);
-                finish();
                 break;
             }
         }
