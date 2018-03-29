@@ -1,12 +1,13 @@
 package org.fhict.fontys.kingsen.Objects;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Nick on 15-3-2018.
  */
 
-public class Group {
+public class Group implements Serializable {
     private String name;
     private List<String> users;
 

@@ -2,6 +2,7 @@ package org.fhict.fontys.kingsen;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -191,6 +192,17 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         //@todo add next screen
         String selectedFromList = (lsview.getItemAtPosition(i).toString());
-        System.out.println(selectedFromList);
+
+        for (Group g : allgroups)
+        {
+            if (g.getName() == selectedFromList)
+            {
+                Intent intent = new Intent(getBaseContext(), StartActivity.class);
+                intent.putExtra("GROUP",g);
+                startActivity(intent);
+                finish();
+                break;
+            }
+        }
     }
 }
