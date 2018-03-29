@@ -26,7 +26,7 @@
             <ImageView
             android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/black"
+                android:src="@drawable/palm"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/yellow"
+                android:src="@drawable/jupiler"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/green"
+                android:src="@drawable/hertog"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/red"
+                android:src="@drawable/heiniken"
                 />
             <TextView
                 android:layout_width="wrap_content"

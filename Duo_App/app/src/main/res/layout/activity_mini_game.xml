@@ -31,22 +31,22 @@
             android:id="@+id/black"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/black"/>
+            android:src="@drawable/palm"/>
         <ImageView
             android:id="@+id/yellow"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/yellow"/>
+            android:src="@drawable/jupiler"/>
         <ImageView
             android:id="@+id/green"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/green"/>
+            android:src="@drawable/hertog"/>
         <ImageView
             android:id="@+id/red"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@drawable/red"/>
+            android:src="@drawable/heiniken"/>
 
         <TextView
             android:id="@+id/startLabel"
