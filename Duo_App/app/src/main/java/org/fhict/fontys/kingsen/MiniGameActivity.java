@@ -1,5 +1,6 @@
 package org.fhict.fontys.kingsen;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -46,7 +47,10 @@ public class MiniGameActivity extends AppCompatActivity {
 
 
     private Handler handler = new Handler();
+    private int secondsPast = 0;
     private Timer timer = new Timer();
+
+
 
     private boolean action_flag = false;
     private boolean start_flag = false;
@@ -56,13 +60,13 @@ public class MiniGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mini_game);
 
-        scoreLabel = (TextView) findViewById(R.id.scoreLabel);
-        startLabel = (TextView) findViewById(R.id.startLabel);
-        mouth = (ImageView) findViewById(R.id.mouth);
-        yellow = (ImageView)findViewById(R.id.yellow);
-        black = (ImageView)findViewById(R.id.black);
-        green = (ImageView)findViewById(R.id.green);
-        red = (ImageView)findViewById(R.id.red);
+        scoreLabel =  findViewById(R.id.scoreLabel);
+        startLabel =  findViewById(R.id.startLabel);
+        mouth = findViewById(R.id.mouth);
+        yellow = findViewById(R.id.yellow);
+        black = findViewById(R.id.black);
+        green = findViewById(R.id.green);
+        red = findViewById(R.id.red);
 
         WindowManager wm = getWindowManager();
         Display display = wm.getDefaultDisplay();
@@ -104,13 +108,13 @@ public class MiniGameActivity extends AppCompatActivity {
         blackX -=16;
         if(blackX<0){
             blackX = screenWidth +10;
-            blackY = (int)Math.floor(Math.random()*(frameHeight-black.getHeight()));
+            blackY = (int)Math.floor(Math.random()*(frameHeight - black.getHeight()));
         }
         black.setX(blackX);
         black.setY(blackY);
 
         // green
-        greenX -=20;
+        greenX -=40;
         if(greenX < 0){
             greenX = screenWidth + 30;
             greenY = (int)Math.floor(Math.random()*(frameHeight - green.getHeight()));
@@ -119,7 +123,7 @@ public class MiniGameActivity extends AppCompatActivity {
         green.setY(greenY);
 
         // red
-        redX -= 30;
+        redX -= 25;
         if(redX < 0){
             redX = screenWidth + 40;
             redY = (int)Math.floor(Math.random()*(frameHeight - red.getHeight()));
@@ -142,7 +146,11 @@ public class MiniGameActivity extends AppCompatActivity {
         mouth.setY(mouthY);
         scoreLabel.setText("Score:"+ score);
     }
+
+
     public void drinkCheck(){
+
+
         int yellowCenterX = yellowX + yellow.getWidth() /2;
         int yellowCenterY = yellowY + yellow.getHeight() /2 ;
         if(0 <= yellowCenterX && yellowCenterX <= mouthSize&&
@@ -168,7 +176,7 @@ public class MiniGameActivity extends AppCompatActivity {
         if(0 <= greenCenterX && greenCenterX <= mouthSize&&
                 mouthY <= greenCenterY && greenCenterY <= mouthY +mouthSize){
 
-            score -=5;
+            score +=15;
             greenX = -10;
         }
 
@@ -178,8 +186,19 @@ public class MiniGameActivity extends AppCompatActivity {
         if(0 <= redCenterX && redCenterX <= mouthSize&&
                 mouthY <= redCenterY && redCenterY <= mouthY +mouthSize){
 
-            score -=10;
-            redX = -10;
+                timer.cancel();
+                timer = null;
+
+                // show result
+                Intent intent = new Intent(getApplicationContext(), MiniGameResultActivity.class);
+                intent.putExtra("SCORE", score);
+                startActivity(intent);
+
+
+
+
+
+
         }
 
     }
@@ -205,6 +224,8 @@ public class MiniGameActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             changePos();
+
+
                         }
                     });
                 }

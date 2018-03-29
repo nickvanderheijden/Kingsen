@@ -1,6 +1,7 @@
 package org.fhict.fontys.kingsen;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ public class GameActivity extends AppCompatActivity {
     List<String> cards = new ArrayList<>();
     ImageView imgcard;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,8 @@ public class GameActivity extends AppCompatActivity {
         cards.add("black_joker");
 
         imgcard = findViewById(R.id.imgviewcard);
+
+
     }
 
     public void ShowRandomCard(View view)
@@ -54,6 +58,13 @@ public class GameActivity extends AppCompatActivity {
         int index = randomGenerator.nextInt(cards.size());
         String card = cards.get(index);
         cards.remove(index);
+
+        if(card.equals("red_joker")){
+
+            Intent miniGame = new Intent(GameActivity.this, MiniGameActivity.class);
+        startActivity(miniGame);
+;
+        }
 
         Context context = this.getApplicationContext();
         int resourceId = context.getResources().getIdentifier(card, "drawable", this.getApplicationContext().getPackageName());
