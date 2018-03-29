@@ -9,12 +9,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,11 +33,18 @@ import org.fhict.fontys.kingsen.Objects.SimpleDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+
 
     final Context context = this;
     private List<EditText> inputmembers = new ArrayList<>();
-    Integer membercount = 0;
+    private Integer membercount = 0;
+    private ListView lsview;
+
+    //arraylists
+    private List<Group> allgroups = new ArrayList<>();
+    List<String> allgroupnames = new ArrayList<>();
+    private ArrayAdapter<String>adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +53,10 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,allgroupnames);
+        lsview = findViewById(R.id.lsview);
 
+        lsview.setAdapter(adapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -94,26 +109,9 @@ public class HomeActivity extends AppCompatActivity {
 
                                         System.out.println(users);
                                         Group toadd = new Group(groupname.getText().toString(),users);
-                                        DatabaseReference.getDatabase().child("groep").child(toadd.getName()).setValue(toadd.getUsers());
-
-                                        DatabaseReference.getDatabase().child("groep").addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                                for (DataSnapshot ds : dataSnapshot.getChildren())
-                                                {
-                                                    System.out.println(ds.getKey());
-                                                    for (DataSnapshot df : ds.getChildren())
-                                                    {
-                                                        System.out.println(df.getValue());
-                                                    }
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-
-                                            }
-                                        });
+                                        String username = AuthenticationReference.getAuth().getCurrentUser().getEmail().replace(".",",");
+                                        DatabaseReference.getDatabase().child("users").child(username).child(toadd.getName()).setValue(toadd.getUsers());
+                                        inputmembers.clear();
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -132,21 +130,51 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-        DatabaseReference.getDatabase().child("groep").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    System.out.println(ds.getKey());
-                    for (DataSnapshot df : ds.getChildren()) {
-                        System.out.println(df.getValue());
-                        System.out.println(AuthenticationReference.getAuth().getCurrentUser().getEmail());
-                        if ( AuthenticationReference.getAuth().getCurrentUser().getEmail().equals(df.getValue().toString())) {
-                            Toast message= Toast.makeText(context,"yes",Toast.LENGTH_SHORT);
-                            message.show();
 
-                        }
+        //get all made games from firebase
+        String username = AuthenticationReference.getAuth().getCurrentUser().getEmail().replace(".",",");
+        DatabaseReference.getDatabase().child("users").child(username).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    allgroups.add(new Group(dataSnapshot.getKey(),(List<String>) dataSnapshot.getValue()));
+                    allgroupnames.add(dataSnapshot.getKey());
+
+                    System.out.println(adapter.getCount());
+                    adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                allgroups.add(new Group(dataSnapshot.getKey(),(List<String>) dataSnapshot.getValue()));
+                allgroupnames.add(dataSnapshot.getKey());
+
+                System.out.println(adapter.getCount());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                for (Group g : allgroups)
+                {
+                    if (dataSnapshot.getKey() == g.getName())
+                    {
+                        allgroups.remove(g);
+                        break;
                     }
                 }
+
+                for (String groupname : allgroupnames)
+                {
+                    if (groupname == dataSnapshot.getKey())
+                    {
+                        allgroupnames.remove(groupname);
+                    }
+                }
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
@@ -154,7 +182,15 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+
+        lsview.setOnItemClickListener(this);
     }
 
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        //@todo add next screen
+        String selectedFromList = (lsview.getItemAtPosition(i).toString());
+        System.out.println(selectedFromList);
+    }
 }

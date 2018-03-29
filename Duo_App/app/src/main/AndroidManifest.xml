@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/iconforlaucher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MiniGameActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +21,7 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme" />
         <activity android:name=".GameActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".MiniGameActivity" />
         <activity android:name=".MiniGameResultActivity"></activity>
     </application>
 
