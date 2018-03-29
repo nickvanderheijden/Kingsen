@@ -61,7 +61,7 @@ public class GameActivity extends AppCompatActivity {
 
         if(card.equals("red_joker")){
 
-            Intent miniGame = new Intent(GameActivity.this, MiniGameActivity.class);
+            Intent miniGame = new Intent(GameActivity.this, GameExplainActivity.class);
         startActivity(miniGame);
 ;
         }
