@@ -2,9 +2,6 @@ package org.fhict.fontys.kingsen.Objects;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -17,81 +14,73 @@ public class BalanceGamePanel  extends SurfaceView implements SurfaceHolder.Call
 
 
     private MainThread thread;
-    private RectPlayer player;
-    private Point playerPoint;
-    private BalanceObstacleManager obstacleManager;
+    private SceneManager manager;
 
-    public BalanceGamePanel(Context context){
+
+    public BalanceGamePanel(Context context) {
 
         super(context);
         getHolder().addCallback(this);
 
-        thread = new MainThread(getHolder(),this);
+        BalanceConstants.CURRENT_CONTEXT = context;
 
-        player = new RectPlayer(new Rect(100, 100, 200, 200), Color.rgb(255,0,0));
-        playerPoint = new Point(150,150);
+        thread = new MainThread(getHolder(), this);
 
-        obstacleManager = new BalanceObstacleManager(200,350,75,Color.BLACK);
-
+        manager = new SceneManager();
         setFocusable(true);
 
 
     }
+
+
+
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width ,int height){
-
-
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
 
     }
 
     @Override
-    public void surfaceCreated(SurfaceHolder holder){
-        thread = new MainThread(getHolder(),this);
-
+    public void surfaceCreated(SurfaceHolder holder) {
+        thread = new MainThread(getHolder(), this);
+        BalanceConstants.INIT_TIME =System.currentTimeMillis();
         thread.setRunning(true);
         thread.start();
 
     }
+
     @Override
-    public  void surfaceDestroyed(SurfaceHolder holder){
+    public void surfaceDestroyed(SurfaceHolder holder) {
         boolean retry = true;
-        while (true){
+        while (retry) {
             try {
                 thread.setRunning(false);
                 thread.join();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             retry = false;
         }
     }
+
     @Override
-    public boolean onTouchEvent (MotionEvent event){
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_MOVE:
-                playerPoint.set((int)event.getX(),(int)event.getY());
-
-
-        }
-
+    public boolean onTouchEvent(MotionEvent event) {
+            manager.recieveTouch(event);
         return true;
         /*    return super.onTouchEvent(event);*/
     }
-    public void update(){
 
-        player.update(playerPoint);
-        obstacleManager.update();
+    public void update() {
+    manager.update();
     }
+
     @Override
-    public void draw(Canvas canvas){
-    super.draw(canvas);
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
 
-    canvas.drawColor(Color.WHITE);
-
-    player.draw(canvas);
-    obstacleManager.draw(canvas);
+        manager.draw(canvas);
     }
+
+
 
 }

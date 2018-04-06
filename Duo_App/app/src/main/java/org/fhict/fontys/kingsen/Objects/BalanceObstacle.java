@@ -34,12 +34,7 @@ public class BalanceObstacle implements BalanceGameObject{
 
     }
     public boolean playerCollide(RectPlayer player){
-        if(rectangle.contains(player.getRect().left,player.getRect().top)
-                ||rectangle.contains(player.getRect().right,player.getRect().top)
-                ||rectangle.contains(player.getRect().left,player.getRect().bottom)
-                ||rectangle.contains(player.getRect().right,player.getRect().bottom))
-            return true;
-        return false;
+       return Rect.intersects(rectangle, player.getRect())|| Rect.intersects(rectangle2, player.getRect());
     }
     @Override
     public void draw(Canvas canvas){

@@ -1,6 +1,8 @@
 package org.fhict.fontys.kingsen.Objects;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import java.util.ArrayList;
 
@@ -17,6 +19,9 @@ public class BalanceObstacleManager {
     private int color;
 
     private long startTime;
+    private long initTime;
+
+    private int score = 0;
 
     public BalanceObstacleManager(int playergap , int obstacleGap, int obstacleHeight, int color){
         this.playerGap = playergap;
@@ -25,10 +30,19 @@ public class BalanceObstacleManager {
         this.color =color;
         obstacles = new ArrayList<>();
 
-        startTime = System.currentTimeMillis();
+        startTime = initTime = System.currentTimeMillis();
 
         prepareObstacles();
 
+    }
+
+    public boolean playerCollide(RectPlayer player){
+        for(BalanceObstacle ob: obstacles){
+            if (ob.playerCollide(player)){
+                return true;
+            }
+        }
+        return false;
     }
     public void prepareObstacles(){
 
@@ -40,9 +54,11 @@ public class BalanceObstacleManager {
         }
     }
     public void update(){
+        if(startTime < BalanceConstants.INIT_TIME)
+            startTime =  BalanceConstants.INIT_TIME;
         int elaspedTime  = (int)(System.currentTimeMillis() - startTime);
         startTime = System.currentTimeMillis();
-        float speed = BalanceConstants.SCREEN_HEIGHT/10000.0f;
+        float speed = (float)(Math.sqrt(1 + (startTime - initTime)/1000.0))*BalanceConstants.SCREEN_HEIGHT/10000.0f;
 
         for(BalanceObstacle ob: obstacles){
             ob.incrementY(speed *elaspedTime );
@@ -51,11 +67,17 @@ public class BalanceObstacleManager {
             int xStart = (int)Math.random()*(BalanceConstants.SCREEN_WIDTH - playerGap);
             obstacles.add(0,new BalanceObstacle(obstacleHeight, color, xStart,obstacles.get(0).getRectangle().top - obstacleHeight - obstacleGap, playerGap));
             obstacles.remove(obstacles.size()-1);
+            score ++;
         }
     }
     public void draw(Canvas canvas){
         for(BalanceObstacle ob: obstacles){
             ob.draw(canvas);
+            Paint paint = new Paint();
+            paint.setTextSize(100);
+            paint.setColor(Color.BLUE);
+            canvas.drawText("" + score, 50 , 50 + paint.descent()-paint.ascent() , paint);
+
         }
     }
 }
