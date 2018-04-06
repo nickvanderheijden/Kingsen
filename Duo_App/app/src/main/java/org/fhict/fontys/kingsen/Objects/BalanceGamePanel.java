@@ -19,6 +19,7 @@ public class BalanceGamePanel  extends SurfaceView implements SurfaceHolder.Call
     private MainThread thread;
     private RectPlayer player;
     private Point playerPoint;
+    private BalanceObstacleManager obstacleManager;
 
     public BalanceGamePanel(Context context){
 
@@ -29,6 +30,8 @@ public class BalanceGamePanel  extends SurfaceView implements SurfaceHolder.Call
 
         player = new RectPlayer(new Rect(100, 100, 200, 200), Color.rgb(255,0,0));
         playerPoint = new Point(150,150);
+
+        obstacleManager = new BalanceObstacleManager(200,350,75,Color.BLACK);
 
         setFocusable(true);
 
@@ -77,7 +80,9 @@ public class BalanceGamePanel  extends SurfaceView implements SurfaceHolder.Call
         /*    return super.onTouchEvent(event);*/
     }
     public void update(){
+
         player.update(playerPoint);
+        obstacleManager.update();
     }
     @Override
     public void draw(Canvas canvas){
@@ -86,6 +91,7 @@ public class BalanceGamePanel  extends SurfaceView implements SurfaceHolder.Call
     canvas.drawColor(Color.WHITE);
 
     player.draw(canvas);
+    obstacleManager.draw(canvas);
     }
 
 }
