@@ -31,17 +31,10 @@ public class MiniGameResultActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putInt("HIGH_SCORE", score);
             editor.commit();
-
-
-
+            
         }else{
-            highScoreLabel.setText("High Score" + highScore);
+            highScoreLabel.setText("High Score " + highScore);
         }
-
-
-
-
-
     }
     public void backToTheGame(View view){
         finish();

@@ -137,7 +137,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                                         inputmembers.clear();
 
                                         //use rule method
-                                        setRules(cbcustomrules.isChecked(),username,toadd.getName());
+                                        setRules(cbcustomrules.isChecked(),username,toadd.getName(),dialog);
 
                                     }
                                 })
@@ -237,7 +237,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    private void setRules(boolean iscustom, String username, String groupname)
+    private void setRules(boolean iscustom, String username, String groupname,DialogInterface currenttialog)
     {
 
         if (iscustom == false)
@@ -257,7 +257,11 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
             DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.king.toString()).setValue("Special At");
         }
         else{
-            //@todo add implement custom rules
+            Intent nextscreen = new Intent(getBaseContext(),CustomRulesActivity.class);
+            nextscreen.putExtra("GROUPNAME",groupname);
+            nextscreen.putExtra("USERNAME",username);
+            currenttialog.dismiss();
+            startActivity(nextscreen);
         }
     }
 }

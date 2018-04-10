@@ -1,8 +1,10 @@
 package org.fhict.fontys.kingsen;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,14 +28,14 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
 
-
-    List<String> cards = new ArrayList<>();
-    ImageView imgcard;
-    TextView tvplayertomove;
-    TextView tvchallenge;
-    Group currentgroup;
-    Integer playertomoveid = 0;
-    HashMap<String,String> rulepercard = new HashMap();
+   final Context context = this;
+   private List<String> cards = new ArrayList<>();
+   private ImageView imgcard;
+   private TextView tvplayertomove;
+   private TextView tvchallenge;
+   private Group currentgroup;
+   private Integer playertomoveid = 0;
+   private HashMap<String,String> rulepercard = new HashMap();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class GameActivity extends AppCompatActivity {
 
         tvplayertomove = findViewById(R.id.tvplayertomove);
         tvchallenge = findViewById(R.id.tvchallenge);
+        imgcard = findViewById(R.id.imgviewcard);
 
         //retrieve group and rules
         currentgroup = (Group) getIntent().getSerializableExtra("GROUP");
@@ -59,16 +62,33 @@ public class GameActivity extends AppCompatActivity {
         cards.add("red_joker");
         cards.add("black_joker");
 
-        imgcard = findViewById(R.id.imgviewcard);
-
         ShowRandomCard(tvchallenge.getRootView());
     }
 
     //execute each time button is pressed
     public void ShowRandomCard(View view)
     {
-        imgcard.setImageDrawable(getRandomcard());
-        getCurrentPlayer();
+        if (cards.size() > 0) {
+            imgcard.setImageDrawable(getRandomcard());
+            getCurrentPlayer();
+        }
+        else{
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    this);
+
+            alertDialogBuilder.setTitle("Game Finished");
+            alertDialogBuilder.setMessage("All cards have been drawn, the game is over");
+            alertDialogBuilder.setPositiveButton("oke", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(context,HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+
+            alertDialogBuilder.show();
+        }
     }
 
     private Drawable getRandomcard()
@@ -82,6 +102,11 @@ public class GameActivity extends AppCompatActivity {
 
             Intent miniGame = new Intent(this, GameExplainActivity.class);
             startActivity(miniGame);
+        }
+
+        if (card.equals("black_joker")){
+            Intent minigame2 = new Intent(this,BalanceGameMainActivity.class);
+            startActivity(minigame2);
         }
 
         String result = card.split("_")[0];

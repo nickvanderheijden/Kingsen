@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/iconforlaucher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity"
+        <activity
+            android:name=".LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +27,8 @@
         <activity android:name=".MiniGameResultActivity" />
         <activity android:name=".StartActivity" />
         <activity android:name=".GameExplainActivity" />
-        <activity android:name=".BalanceGameMainActivity"></activity>
+        <activity android:name=".BalanceGameMainActivity" />
+        <activity android:name=".CustomRulesActivity"></activity>
     </application>
 
 </manifest>
