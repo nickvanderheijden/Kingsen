@@ -13,11 +13,14 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.fhict.fontys.kingsen.Objects.AuthenticationReference;
 import org.fhict.fontys.kingsen.Objects.Card;
 import org.fhict.fontys.kingsen.Objects.DatabaseReference;
 import org.fhict.fontys.kingsen.Objects.Group;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -27,8 +30,10 @@ public class GameActivity extends AppCompatActivity {
     List<String> cards = new ArrayList<>();
     ImageView imgcard;
     TextView tvplayertomove;
+    TextView tvchallenge;
     Group currentgroup;
     Integer playertomoveid = 0;
+    HashMap<String,String> rulepercard = new HashMap();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +41,13 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         tvplayertomove = findViewById(R.id.tvplayertomove);
+        tvchallenge = findViewById(R.id.tvchallenge);
 
+        //retrieve group and rules
         currentgroup = (Group) getIntent().getSerializableExtra("GROUP");
+        retrieveRules(currentgroup);
 
+        //create list of images via name
         for (Card.Number number : Card.Number.values())
         {
             for (Card.Type type : Card.Type.values())
@@ -52,9 +61,10 @@ public class GameActivity extends AppCompatActivity {
 
         imgcard = findViewById(R.id.imgviewcard);
 
-        getCurrentPlayer();
+        ShowRandomCard(tvchallenge.getRootView());
     }
 
+    //execute each time button is pressed
     public void ShowRandomCard(View view)
     {
         imgcard.setImageDrawable(getRandomcard());
@@ -74,6 +84,10 @@ public class GameActivity extends AppCompatActivity {
             startActivity(miniGame);
         }
 
+        String result = card.split("_")[0];
+        tvchallenge.setText(rulepercard.get(result.toString()));
+
+
         Context context = this.getApplicationContext();
         int resourceId = context.getResources().getIdentifier(card, "drawable", this.getApplicationContext().getPackageName());
         return context.getResources().getDrawable(resourceId);
@@ -91,5 +105,36 @@ public class GameActivity extends AppCompatActivity {
             tvplayertomove.setText("It's " + currentgroup.getUsers().get(0) + " turn!");
             playertomoveid = 1;
         }
+    }
+
+    private void retrieveRules(Group currentgroup)
+    {
+        String username = AuthenticationReference.getAuth().getCurrentUser().getEmail().replace(".",",");
+        DatabaseReference.getDatabase().child("users").child(username).child(currentgroup.getName()).child("rules").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                rulepercard.put(dataSnapshot.getKey(),dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

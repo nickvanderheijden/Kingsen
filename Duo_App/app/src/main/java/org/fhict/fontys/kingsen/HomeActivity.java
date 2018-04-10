@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -27,11 +28,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.fhict.fontys.kingsen.Objects.AuthenticationReference;
+import org.fhict.fontys.kingsen.Objects.Card;
 import org.fhict.fontys.kingsen.Objects.DatabaseReference;
 import org.fhict.fontys.kingsen.Objects.Group;
 import org.fhict.fontys.kingsen.Objects.SimpleDialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
@@ -80,18 +83,37 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 final EditText member1 = promptsView.findViewById(R.id.tbmember1);
                 inputmembers.add(member1);
 
+                final CheckBox  cbcustomrules = promptsView.findViewById(R.id.cbcustomrules);
+
                 final ImageButton addtextbox = promptsView.findViewById(R.id.btnaddtext);
                 addtextbox.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        membercount++;
-                        EditText toadd = new EditText(promptsView.getContext());
-                        toadd.setHint("Member " + membercount);
 
-                        inputmembers.add(toadd);
+                        if (membercount < 7) {
+                            membercount++;
+                            EditText toadd = new EditText(promptsView.getContext());
+                            toadd.setHint("Member " + membercount);
 
-                      LinearLayout l =  promptsView.findViewById(R.id.layout_root);
-                      l.addView(toadd,l.indexOfChild(addtextbox));
+                            inputmembers.add(toadd);
+
+                            LinearLayout l = promptsView.findViewById(R.id.layout_root);
+                            l.addView(toadd, l.indexOfChild(addtextbox));
+                        }
+                        else
+                        {
+                            membercount++;
+                            LinearLayout l = promptsView.findViewById(R.id.layout_root);
+
+                            EditText toadd = new EditText(promptsView.getContext());
+                            toadd.setHint("Member " + membercount);
+
+                            inputmembers.add(toadd);
+                            l.addView(toadd, l.indexOfChild(addtextbox));
+
+                            l.removeView(addtextbox);
+
+                        }
                     }
                 });
 
@@ -111,8 +133,12 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                                         System.out.println(users);
                                         Group toadd = new Group(groupname.getText().toString(),users);
                                         String username = AuthenticationReference.getAuth().getCurrentUser().getEmail().replace(".",",");
-                                        DatabaseReference.getDatabase().child("users").child(username).child(toadd.getName()).setValue(toadd.getUsers());
+                                        DatabaseReference.getDatabase().child("users").child(username).child(toadd.getName()).child("members").setValue(toadd.getUsers());
                                         inputmembers.clear();
+
+                                        //use rule method
+                                        setRules(cbcustomrules.isChecked(),username,toadd.getName());
+
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -137,27 +163,32 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         DatabaseReference.getDatabase().child("users").child(username).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    allgroups.add(new Group(dataSnapshot.getKey(),(List<String>) dataSnapshot.getValue()));
+
+                    allgroups.add(new Group(dataSnapshot.getKey(), (List<String>) dataSnapshot.child("members").getValue()));
                     allgroupnames.add(dataSnapshot.getKey());
 
                     System.out.println(adapter.getCount());
                     adapter.notifyDataSetChanged();
+
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                allgroups.add(new Group(dataSnapshot.getKey(),(List<String>) dataSnapshot.getValue()));
-                allgroupnames.add(dataSnapshot.getKey());
+                //need to check if rules are not changed to prevent duplicates
+                if (dataSnapshot.child("rules").child(Card.Number.ace.toString()).getValue() == null) {
+                    allgroups.add(new Group(dataSnapshot.getKey(), (List<String>) dataSnapshot.child("members").getValue()));
+                    allgroupnames.add(dataSnapshot.getKey());
 
-                System.out.println(adapter.getCount());
-                adapter.notifyDataSetChanged();
+                    System.out.println(adapter.getCount());
+                    adapter.notifyDataSetChanged();
+                }
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 for (Group g : allgroups)
                 {
-                    if (dataSnapshot.getKey() == g.getName())
+                    if (dataSnapshot.getKey().equals(g.getName()))
                     {
                         allgroups.remove(g);
                         break;
@@ -166,11 +197,13 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 for (String groupname : allgroupnames)
                 {
-                    if (groupname == dataSnapshot.getKey())
+                    if (dataSnapshot.getKey().equals(groupname))
                     {
                         allgroupnames.remove(groupname);
                     }
                 }
+
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -190,7 +223,6 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        //@todo add next screen
         String selectedFromList = (lsview.getItemAtPosition(i).toString());
 
         for (Group g : allgroups)
@@ -202,6 +234,30 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 startActivity(intent);
                 break;
             }
+        }
+    }
+
+    private void setRules(boolean iscustom, String username, String groupname)
+    {
+
+        if (iscustom == false)
+        {
+            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.ace.toString()).setValue("Andere kant uit");
+            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.two.toString()).setValue("Twee adjes");
+            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.three.toString()).setValue("Adje links");
+            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.four.toString()).setValue("Adje rechts");
+            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.five.toString()).setValue("Duim op tafel leggen");
+            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.six.toString()).setValue("Eén minuut dom lullen");
+            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.seven.toString()).setValue("Juffen");
+            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.eight.toString()).setValue("Regel");
+            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.nine.toString()).setValue("Rijmen");
+            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.ten.toString()).setValue("Atje vraag");
+            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.jack.toString()).setValue("Regel");
+            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.queen.toString()).setValue("Categorie");
+            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.king.toString()).setValue("Special At");
+        }
+        else{
+            //@todo add implement custom rules
         }
     }
 }

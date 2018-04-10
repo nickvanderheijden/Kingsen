@@ -18,6 +18,7 @@ public class Card {
         seven,
         eight,
         nine,
+        ten,
         jack,
         queen,
         king
