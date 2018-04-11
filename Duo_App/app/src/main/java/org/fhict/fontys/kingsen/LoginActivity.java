@@ -23,7 +23,7 @@ import org.fhict.fontys.kingsen.Objects.SimpleDialog;
 
 public class LoginActivity extends AppCompatActivity {
 
-
+    //Controls
     EditText tbusername;
     EditText tbpassword;
 
@@ -32,12 +32,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        //initialize authenticationreference and databasereference
         new  AuthenticationReference();
         new DatabaseReference();
 
+        //assign controls
         this.tbusername = findViewById(R.id.tbusername);
         this.tbpassword = findViewById(R.id.tbpassword);
 
+        //if user had already been logged in, skip loginscreen and go straight to groupscreen
         if (AuthenticationReference.getAuth().getCurrentUser() != null)
         {
             Intent homescreen = new Intent(this,HomeActivity.class);
@@ -48,16 +51,20 @@ public class LoginActivity extends AppCompatActivity {
 
     public void Login(View view) {
 
+        //if fields are empty give dialog
         if (tbusername.getText().toString().equals("") || tbpassword.getText().toString().equals("")) {
             new SimpleDialog(this,"No Credentials","Please fill in both the required fields");
         }
+        //if fields are not empty, try to login
         else if (tbusername.getText().toString().isEmpty() == false || tbpassword.getText().toString().isEmpty() == false){
             AuthenticationReference.getAuth().signInWithEmailAndPassword(tbusername.getText().toString(), tbpassword.getText().toString());
             FirebaseUser current = AuthenticationReference.getAuth().getCurrentUser();
 
+            //if login was unnsuccesfully,give message
             if (current == null) {
                 new SimpleDialog(this,"Wrong credentials","Please fill in the right credentials");
             } else {
+                //return to groupscreen
                 Intent homescreen = new Intent(this, HomeActivity.class);
                 startActivity(homescreen);
                 finish();
@@ -67,11 +74,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void Register(View view)
     {
+        //if fields are empty give dialog
         if (tbusername.getText().toString().equals("") || tbpassword.getText().toString().equals(""))
         {
             new SimpleDialog(this,"No Credentials","Please fill in both the required fields");
         }
         else if (tbusername.getText().toString().isEmpty() == false || tbpassword.getText().toString().isEmpty() == false){
+            //try to register, give error message if it fails
         AuthenticationReference.getAuth().createUserWithEmailAndPassword(tbusername.getText().toString(),tbpassword.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

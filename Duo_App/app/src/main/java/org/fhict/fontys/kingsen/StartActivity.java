@@ -18,26 +18,25 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        //get currentgroup from previous screen
         currentgroup = (Group) getIntent().getSerializableExtra("GROUP");
-
-        System.out.println(currentgroup.getName());
-        System.out.println(currentgroup.getUsers().toString());
-
-        TextView tvgroupname = findViewById(R.id.tvgroupname);
-        tvgroupname.setText(currentgroup.getName());
 
         TextView tvmembers = findViewById(R.id.tvmembers);
 
+        //foreach member display them
         int membercount = 0;
         for (String member : currentgroup.getUsers())
         {
             membercount++;
             tvmembers.append("Member " + membercount + " : " + member + "\n");
         }
+
+        setTitle(currentgroup.getName() + " overview");
     }
 
     public void Startgame (View view)
     {
+        //startgame, addflag for correct flow
         Intent intent = new Intent(getBaseContext(), GameActivity.class);
         intent.putExtra("GROUP",currentgroup);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

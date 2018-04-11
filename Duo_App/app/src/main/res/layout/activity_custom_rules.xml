@@ -8,35 +8,29 @@
 
     <ImageView
         android:id="@+id/imgcardforrule"
-        android:layout_width="225dp"
-        android:layout_height="344dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="183dp"
+        android:layout_height="276dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/tvcardnumbeexample"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ace_of_clubs" />
 
     <TextView
         android:id="@+id/tvcardnumbeexample"
         android:layout_width="149dp"
-        android:layout_height="34dp"
-        android:layout_marginBottom="28dp"
+        android:layout_height="59dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="156dp"
         android:gravity="center"
         android:text="ace"
-        android:textSize="18sp"
+        android:textSize="36sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/etrule"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toEndOf="@+id/imgcardforrule"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etrule"
@@ -45,25 +39,43 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="fill in a rule"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/btnnextcard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgcardforrule" />
 
     <Button
         android:id="@+id/btnnextcard"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginBottom="96dp"
+        android:layout_marginEnd="48dp"
+        android:background="@color/colorPrimary"
         android:onClick="SaveAndNext"
         android:text="Next card"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="96dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/colorPrimary"
+        android:onClick="Cancel"
+        android:text="Cancel"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnnextcard"
+        app:layout_constraintHorizontal_bias="0.531"
         app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -15,15 +15,19 @@ public class MiniGameResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mini_game_result);
 
+        //assign controls
         TextView scoreLabel =  findViewById(R.id.scoreLabel);
         TextView highScoreLabel =  findViewById(R.id.highScoreLabel);
 
+        //get and view score from game
         int score = getIntent().getIntExtra("SCORE",0);
         scoreLabel.setText(score + "");
 
+        //get highscore from storage
         SharedPreferences settings = getSharedPreferences("GAME_DATA", Context.MODE_PRIVATE);
         int highScore = settings.getInt("HIGH_SCORE",0);
 
+        //if you have highscore, save it in storage
         if(score > highScore){
             highScoreLabel.setText("High Score:"+ score);
 
@@ -36,6 +40,7 @@ public class MiniGameResultActivity extends AppCompatActivity {
             highScoreLabel.setText("High Score " + highScore);
         }
     }
+
     public void backToTheGame(View view){
         finish();
     }

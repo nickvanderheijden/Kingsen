@@ -20,15 +20,30 @@
         </activity>
         <activity
             android:name=".HomeActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".MiniGameActivity" />
-        <activity android:name=".GameActivity" />
-        <activity android:name=".MiniGameResultActivity" />
-        <activity android:name=".StartActivity" />
-        <activity android:name=".GameExplainActivity" />
-        <activity android:name=".BalanceGameMainActivity" />
-        <activity android:name=".CustomRulesActivity"></activity>
+            android:label="Groups"
+            android:theme="@style/AppTheme2" />
+
+        <activity android:name=".MiniGameActivity"
+            android:theme="@style/AppTheme2"/>
+
+        <activity android:name=".GameActivity"
+            android:theme="@style/AppTheme2"/>
+
+        <activity android:name=".MiniGameResultActivity"
+            android:theme="@style/AppTheme2"/>
+
+        <activity android:name=".StartActivity"
+            android:label="Startscreen"
+            android:theme="@style/AppTheme"/>
+
+        <activity android:name=".GameExplainActivity"
+            android:theme="@style/AppTheme2"/>
+
+        <activity android:name=".BalanceGameMainActivity"
+            android:theme="@style/AppTheme2"/>
+
+        <activity android:name=".CustomRulesActivity"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

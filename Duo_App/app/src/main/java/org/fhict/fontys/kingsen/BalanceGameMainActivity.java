@@ -1,14 +1,13 @@
 package org.fhict.fontys.kingsen;
 
-import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
 
-import org.fhict.fontys.kingsen.Objects.BalanceConstants;
-import org.fhict.fontys.kingsen.Objects.BalanceGamePanel;
+import org.fhict.fontys.kingsen.Objects.BalancedGame.BalanceConstants;
+import org.fhict.fontys.kingsen.Objects.BalancedGame.BalanceGamePanel;
 
 public class BalanceGameMainActivity extends AppCompatActivity {
 

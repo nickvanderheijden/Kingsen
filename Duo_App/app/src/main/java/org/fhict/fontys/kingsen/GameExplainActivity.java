@@ -14,6 +14,7 @@ public class GameExplainActivity extends AppCompatActivity {
     }
 
     public void  startGame(View view){
+        //Start the minigame
         startActivity(new Intent(getApplicationContext(),MiniGameActivity.class));
         finish();
     }

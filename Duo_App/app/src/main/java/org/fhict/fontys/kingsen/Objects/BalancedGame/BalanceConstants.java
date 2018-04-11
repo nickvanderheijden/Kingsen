@@ -1,4 +1,4 @@
-package org.fhict.fontys.kingsen.Objects;
+package org.fhict.fontys.kingsen.Objects.BalancedGame;
 
 import android.content.Context;
 

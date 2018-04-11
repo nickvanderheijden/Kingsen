@@ -30,12 +30,16 @@ public class GameActivity extends AppCompatActivity {
 
    final Context context = this;
    private List<String> cards = new ArrayList<>();
-   private ImageView imgcard;
-   private TextView tvplayertomove;
-   private TextView tvchallenge;
    private Group currentgroup;
    private Integer playertomoveid = 0;
    private HashMap<String,String> rulepercard = new HashMap();
+
+
+   //Controls
+   private ImageView imgcard;
+   private TextView tvplayertomove;
+   private TextView tvchallenge;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +72,14 @@ public class GameActivity extends AppCompatActivity {
     //execute each time button is pressed
     public void ShowRandomCard(View view)
     {
+        //are there cards left
         if (cards.size() > 0) {
+            //get card and current player
             imgcard.setImageDrawable(getRandomcard());
             getCurrentPlayer();
         }
         else{
+            //show dialog and return to groupscreen
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                     this);
 
@@ -93,26 +100,30 @@ public class GameActivity extends AppCompatActivity {
 
     private Drawable getRandomcard()
     {
+        //get random card from list and remove card from list (to prevent duplicates cards drawn)
         Random randomGenerator = new Random();
         int index = randomGenerator.nextInt(cards.size());
         String card = cards.get(index);
         cards.remove(index);
 
+        //start beer-minigame
         if(card.equals("red_joker")){
 
             Intent miniGame = new Intent(this, GameExplainActivity.class);
             startActivity(miniGame);
         }
 
+        //start balance-minigame
         if (card.equals("black_joker")){
             Intent minigame2 = new Intent(this,BalanceGameMainActivity.class);
             startActivity(minigame2);
         }
 
+        //add challenge to screen
         String result = card.split("_")[0];
         tvchallenge.setText(rulepercard.get(result.toString()));
 
-
+        //return corosponding image from string
         Context context = this.getApplicationContext();
         int resourceId = context.getResources().getIdentifier(card, "drawable", this.getApplicationContext().getPackageName());
         return context.getResources().getDrawable(resourceId);
@@ -120,13 +131,16 @@ public class GameActivity extends AppCompatActivity {
 
     private void getCurrentPlayer()
     {
+        //check if all players have done a round
         if (playertomoveid + 1 <= currentgroup.getUsers().size())
         {
+            //no, select next player
             tvplayertomove.setText("It's " + currentgroup.getUsers().get(playertomoveid) + " turn!");
             playertomoveid++;
         }
         else
         {
+            //yes,start from beginning
             tvplayertomove.setText("It's " + currentgroup.getUsers().get(0) + " turn!");
             playertomoveid = 1;
         }
@@ -134,6 +148,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void retrieveRules(Group currentgroup)
     {
+        //get rules from database and put them in the list
         String username = AuthenticationReference.getAuth().getCurrentUser().getEmail().replace(".",",");
         DatabaseReference.getDatabase().child("users").child(username).child(currentgroup.getName()).child("rules").addChildEventListener(new ChildEventListener() {
             @Override

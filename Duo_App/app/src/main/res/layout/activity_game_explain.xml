@@ -97,11 +97,15 @@
 
         </TableRow>
     </TableLayout>
+
     <Button
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="START"
         android:layout_marginTop="80dp"
-        android:onClick="startGame" />
+        android:background="@color/colorPrimary"
+        android:onClick="startGame"
+        android:text="START"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
 </LinearLayout>

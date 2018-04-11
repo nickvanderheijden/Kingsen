@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,29 +38,33 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
+public class HomeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
 
     final Context context = this;
     private List<EditText> inputmembers = new ArrayList<>();
     private Integer membercount = 0;
+
+    //Controls
     private ListView lsview;
 
     //arraylists
     private List<Group> allgroups = new ArrayList<>();
     List<String> allgroupnames = new ArrayList<>();
-    private ArrayAdapter<String>adapter;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,allgroupnames);
-        lsview = findViewById(R.id.lsview);
 
+        //bound adapter to listview
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, allgroupnames);
+        lsview = findViewById(R.id.lsview);
         lsview.setAdapter(adapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -71,26 +76,31 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                 LayoutInflater li = LayoutInflater.from(context);
                 final View promptsView = li.inflate(R.layout.creategroup_prompt, null);
 
+                //create dialogbuilder
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         context);
 
                 // set creategroup_promptroup_prompt.xml to alertdialog builder
                 alertDialogBuilder.setView(promptsView);
 
+                //declare controls in custom dialog
                 final EditText groupname = promptsView
                         .findViewById(R.id.tbgroupname);
 
                 final EditText member1 = promptsView.findViewById(R.id.tbmember1);
                 inputmembers.add(member1);
 
-                final CheckBox  cbcustomrules = promptsView.findViewById(R.id.cbcustomrules);
+                final CheckBox cbcustomrules = promptsView.findViewById(R.id.cbcustomrules);
 
+                //build automatic textbox add-er
                 final ImageButton addtextbox = promptsView.findViewById(R.id.btnaddtext);
                 addtextbox.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
+                        //if there aren't 7 textboxes
                         if (membercount < 7) {
+                            //determain to add the textbox and put it in the list and
                             membercount++;
                             EditText toadd = new EditText(promptsView.getContext());
                             toadd.setHint("Member " + membercount);
@@ -99,9 +109,8 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
                             LinearLayout l = promptsView.findViewById(R.id.layout_root);
                             l.addView(toadd, l.indexOfChild(addtextbox));
-                        }
-                        else
-                        {
+                        } else {
+                            //add eight textbox and remove addtextbox button
                             membercount++;
                             LinearLayout l = promptsView.findViewById(R.id.layout_root);
 
@@ -112,7 +121,6 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                             l.addView(toadd, l.indexOfChild(addtextbox));
 
                             l.removeView(addtextbox);
-
                         }
                     }
                 });
@@ -122,28 +130,35 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
                         .setCancelable(false)
                         .setPositiveButton("Save",
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
 
-                                        List<String> users = new ArrayList<>();
-                                        for (EditText t : inputmembers)
-                                        {
-                                            users.add(t.getText().toString());
+                                        //check if all fields have been filled in
+                                        if (TextUtils.isEmpty(groupname.getText().toString()) || TextUtils.isEmpty(member1.getText())) {
+                                            //no, give toast
+                                        Toast t = Toast.makeText(context,"Please fill in a groupname and atleast one member",Toast.LENGTH_SHORT);
+                                        t.show();
+
+                                        } else {
+                                            //yes, get all users (via textbox list) and groupname, make the group and save it in firebase under the e-mail
+                                            List<String> users = new ArrayList<>();
+                                            for (EditText t : inputmembers) {
+                                                users.add(t.getText().toString());
+                                            }
+
+                                            Group toadd = new Group(groupname.getText().toString(), users);
+                                            String username = AuthenticationReference.getAuth().getCurrentUser().getEmail().replace(".", ",");
+                                            DatabaseReference.getDatabase().child("users").child(username).child(toadd.getName()).child("members").setValue(toadd.getUsers());
+                                            inputmembers.clear();
+
+                                            //use rule method
+                                            setRules(cbcustomrules.isChecked(), username, toadd.getName(), dialog);
                                         }
-
-                                        System.out.println(users);
-                                        Group toadd = new Group(groupname.getText().toString(),users);
-                                        String username = AuthenticationReference.getAuth().getCurrentUser().getEmail().replace(".",",");
-                                        DatabaseReference.getDatabase().child("users").child(username).child(toadd.getName()).child("members").setValue(toadd.getUsers());
-                                        inputmembers.clear();
-
-                                        //use rule method
-                                        setRules(cbcustomrules.isChecked(),username,toadd.getName(),dialog);
 
                                     }
                                 })
                         .setNegativeButton("Cancel",
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                     }
                                 });
@@ -157,18 +172,17 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         });
 
 
-
         //get all made games from firebase
-        String username = AuthenticationReference.getAuth().getCurrentUser().getEmail().replace(".",",");
+        String username = AuthenticationReference.getAuth().getCurrentUser().getEmail().replace(".", ",");
         DatabaseReference.getDatabase().child("users").child(username).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                    allgroups.add(new Group(dataSnapshot.getKey(), (List<String>) dataSnapshot.child("members").getValue()));
-                    allgroupnames.add(dataSnapshot.getKey());
+                allgroups.add(new Group(dataSnapshot.getKey(), (List<String>) dataSnapshot.child("members").getValue()));
+                allgroupnames.add(dataSnapshot.getKey());
 
-                    System.out.println(adapter.getCount());
-                    adapter.notifyDataSetChanged();
+                System.out.println(adapter.getCount());
+                adapter.notifyDataSetChanged();
 
             }
 
@@ -186,19 +200,15 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                for (Group g : allgroups)
-                {
-                    if (dataSnapshot.getKey().equals(g.getName()))
-                    {
+                for (Group g : allgroups) {
+                    if (dataSnapshot.getKey().equals(g.getName())) {
                         allgroups.remove(g);
                         break;
                     }
                 }
 
-                for (String groupname : allgroupnames)
-                {
-                    if (dataSnapshot.getKey().equals(groupname))
-                    {
+                for (String groupname : allgroupnames) {
+                    if (dataSnapshot.getKey().equals(groupname)) {
                         allgroupnames.remove(groupname);
                     }
                 }
@@ -220,28 +230,26 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         lsview.setOnItemClickListener(this);
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        //if group is pressed, get groupname string
         String selectedFromList = (lsview.getItemAtPosition(i).toString());
 
-        for (Group g : allgroups)
-        {
-            if (g.getName() == selectedFromList)
-            {
+        //go to start screen and pass group (serializable) through
+        for (Group g : allgroups) {
+            if (g.getName() == selectedFromList) {
                 Intent intent = new Intent(getBaseContext(), StartActivity.class);
-                intent.putExtra("GROUP",g);
+                intent.putExtra("GROUP", g);
                 startActivity(intent);
                 break;
             }
         }
     }
 
-    private void setRules(boolean iscustom, String username, String groupname,DialogInterface currenttialog)
-    {
+    private void setRules(boolean iscustom, String username, String groupname, DialogInterface currenttialog) {
 
-        if (iscustom == false)
-        {
+        //custom rules is not checked -> putt standerd rules in database
+        if (iscustom == false) {
             DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.ace.toString()).setValue("Andere kant uit");
             DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.two.toString()).setValue("Twee adjes");
             DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.three.toString()).setValue("Adje links");
@@ -255,11 +263,11 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
             DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.jack.toString()).setValue("Regel");
             DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.queen.toString()).setValue("Categorie");
             DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(Card.Number.king.toString()).setValue("Special At");
-        }
-        else{
-            Intent nextscreen = new Intent(getBaseContext(),CustomRulesActivity.class);
-            nextscreen.putExtra("GROUPNAME",groupname);
-            nextscreen.putExtra("USERNAME",username);
+        } else {
+            //go to custom rules screen (pass groupname and username through)
+            Intent nextscreen = new Intent(getBaseContext(), CustomRulesActivity.class);
+            nextscreen.putExtra("GROUPNAME", groupname);
+            nextscreen.putExtra("USERNAME", username);
             currenttialog.dismiss();
             startActivity(nextscreen);
         }
