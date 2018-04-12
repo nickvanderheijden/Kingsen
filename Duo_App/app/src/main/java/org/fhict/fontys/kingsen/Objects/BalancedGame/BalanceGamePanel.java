@@ -12,14 +12,13 @@ import android.view.SurfaceView;
 
 public class BalanceGamePanel  extends SurfaceView implements SurfaceHolder.Callback {
 
-
     private MainThread thread;
+
     private SceneManager manager;
 
-
     public BalanceGamePanel(Context context) {
-
         super(context);
+
         getHolder().addCallback(this);
 
         BalanceConstants.CURRENT_CONTEXT = context;
@@ -27,51 +26,46 @@ public class BalanceGamePanel  extends SurfaceView implements SurfaceHolder.Call
         thread = new MainThread(getHolder(), this);
 
         manager = new SceneManager();
+
         setFocusable(true);
-
-
     }
-
-
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
 
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         thread = new MainThread(getHolder(), this);
-        BalanceConstants.INIT_TIME =System.currentTimeMillis();
+        BalanceConstants.INIT_TIME = System.currentTimeMillis();
         thread.setRunning(true);
         thread.start();
-
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         boolean retry = true;
-        while (retry) {
+        while(retry) {
             try {
                 thread.setRunning(false);
                 thread.join();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            } catch(Exception e) {e.printStackTrace();}
             retry = false;
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-            manager.recieveTouch(event);
+
+        manager.recieveTouch(event);
+
         return true;
-        /*    return super.onTouchEvent(event);*/
+        //return super.onTouchEvent(event);
     }
 
     public void update() {
-    manager.update();
+        manager.update();
     }
 
     @Override
@@ -80,7 +74,4 @@ public class BalanceGamePanel  extends SurfaceView implements SurfaceHolder.Call
 
         manager.draw(canvas);
     }
-
-
-
 }

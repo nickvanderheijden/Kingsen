@@ -19,6 +19,7 @@ import java.util.TimerTask;
 
 public class MiniGameActivity extends AppCompatActivity {
 
+    //Controls
     private TextView scoreLabel;
     private TextView startLabel;
     private ImageView mouth;
@@ -32,7 +33,7 @@ public class MiniGameActivity extends AppCompatActivity {
     private int screenWidth;
     private int screenHeight;
 
-
+    //postions
     private int mouthY;
     private int yellowX;
     private int yellowY;
@@ -60,6 +61,7 @@ public class MiniGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mini_game);
 
+        //assign controls
         scoreLabel =  findViewById(R.id.scoreLabel);
         startLabel =  findViewById(R.id.startLabel);
         mouth = findViewById(R.id.mouth);
@@ -76,6 +78,7 @@ public class MiniGameActivity extends AppCompatActivity {
         screenWidth = size.x;
         screenHeight = size.y;
 
+        //set beginpostitions
         yellow.setX(-80);
         yellow.setY(-80);
         black.setX(-80);
@@ -150,7 +153,7 @@ public class MiniGameActivity extends AppCompatActivity {
 
     public void drinkCheck(){
 
-
+        //check if bottle hits mouth and take actions
         int yellowCenterX = yellowX + yellow.getWidth() /2;
         int yellowCenterY = yellowY + yellow.getHeight() /2 ;
         if(0 <= yellowCenterX && yellowCenterX <= mouthSize&&
@@ -205,6 +208,7 @@ public class MiniGameActivity extends AppCompatActivity {
     }
     public boolean onTouchEvent(MotionEvent me){
 
+        //detect tocuhes
         if(start_flag == false){
             start_flag = true;
 

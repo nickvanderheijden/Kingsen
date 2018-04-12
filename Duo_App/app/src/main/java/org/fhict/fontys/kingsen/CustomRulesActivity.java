@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import org.fhict.fontys.kingsen.Objects.DatabaseReference;
 import org.fhict.fontys.kingsen.Objects.Group;
+import org.fhict.fontys.kingsen.Objects.SimpleDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,24 +59,27 @@ public class CustomRulesActivity extends AppCompatActivity {
 
     }
 
-    public void SaveAndNext(View view)
-    {
-        //are all cards filled in?
-        if (index < 12) {
-            //save current rule
-            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(tvcardnumbeexample.getText().toString()).setValue(etrule.getText().toString());
+    public void SaveAndNext(View view) {
+        //check if edittext is empty
+        if (etrule.getText().toString() == "") {
+            new SimpleDialog(view.getContext(),"Warning","Please fill in a rule");
+        } else {
+            //are all cards filled in?
+            if (index < 12) {
+                //save current rule
+                DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(tvcardnumbeexample.getText().toString()).setValue(etrule.getText().toString());
 
-            //prepare next card
-            imgcardforrule.setImageDrawable(getRandomcard());
-            etrule.setText("");
-        }
-        //save last card and give user a message > go back to mainscreen
-        else
-        {
-            DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(tvcardnumbeexample.getText().toString()).setValue(etrule.getText().toString());
-            Toast t = Toast.makeText(this,"The rules have been saved", Toast.LENGTH_SHORT);
-            t.show();
-            finish();
+                //prepare next card
+                imgcardforrule.setImageDrawable(getRandomcard());
+                etrule.setText("");
+            }
+            //save last card and give user a message > go back to mainscreen
+            else {
+                DatabaseReference.getDatabase().child("users").child(username).child(groupname).child("rules").child(tvcardnumbeexample.getText().toString()).setValue(etrule.getText().toString());
+                Toast t = Toast.makeText(this, "The rules have been saved", Toast.LENGTH_SHORT);
+                t.show();
+                finish();
+            }
         }
     }
 

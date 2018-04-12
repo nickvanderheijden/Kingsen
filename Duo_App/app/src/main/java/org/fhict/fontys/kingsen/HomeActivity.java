@@ -152,6 +152,9 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
                                             //use rule method
                                             setRules(cbcustomrules.isChecked(), username, toadd.getName(), dialog);
+
+                                            Toast t = Toast.makeText(context,"Group succesfully save",Toast.LENGTH_SHORT);
+                                            t.show();
                                         }
 
                                     }
