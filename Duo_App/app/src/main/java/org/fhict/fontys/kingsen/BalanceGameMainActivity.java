@@ -25,4 +25,9 @@ public class BalanceGameMainActivity extends AppCompatActivity {
 
         setContentView(new BalanceGamePanel(this));
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

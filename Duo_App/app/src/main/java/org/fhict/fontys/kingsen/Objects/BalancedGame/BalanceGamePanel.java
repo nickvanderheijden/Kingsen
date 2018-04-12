@@ -60,6 +60,7 @@ public class BalanceGamePanel  extends SurfaceView implements SurfaceHolder.Call
 
         manager.recieveTouch(event);
 
+
         return true;
         //return super.onTouchEvent(event);
     }
